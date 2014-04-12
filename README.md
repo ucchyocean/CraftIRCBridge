@@ -1,7 +1,7 @@
-CraftIRCBridge (GPLv3 from uIRCBridge)
+CraftIRCLunaChatBridge (GPLv3 from uIRCBridge)
 ==============
 
-Bridges CraftIRC to Herochat!
+Bridges CraftIRC to LunaChat.
 
-This plugin based uIRCBridge plugin!
-Thanks to uIRCBridge developer Teaam!
+This plugin based CraftIRCBridge plugin.
+https://github.com/syamn/CraftIRCBridge

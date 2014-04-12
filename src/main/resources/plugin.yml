@@ -4,6 +4,7 @@ main: syam.CraftIRCBridge.CraftIRCBridge
 version: 0.1
 description: Linking CraftIRC and Herochat for SakuraServer
 website: http://sakura-server.net/
-depend: [Herochat, CraftIRC]
+depend: [LunaChat, CraftIRC]
 ##  Original Author     ##
 author: syamn
+authors: [syamn, ucchy]

@@ -2,8 +2,8 @@ package syam.CraftIRCBridge.Bridge;
 
 import syam.CraftIRCBridge.CraftIRCBridge;
 
-import com.dthielke.herochat.Channel;
-import com.dthielke.herochat.Herochat;
+import com.github.ucchyocean.lc.LunaChat;
+import com.github.ucchyocean.lc.channel.Channel;
 
 public class Bridge {
     public String craftIRCTag = "";
@@ -18,7 +18,8 @@ public class Bridge {
             this.getAll = true;
             this.GameChannel = null;
         } else {
-            this.GameChannel = Herochat.getChannelManager().getChannel(GameChannel);
+            this.GameChannel =
+                    LunaChat.getInstance().getLunaChatAPI().getChannel(GameChannel);
         }
 
         endPoint = new BridgeEndPoint(this.GameChannel);

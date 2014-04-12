@@ -1,31 +1,24 @@
 package syam.CraftIRCBridge;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.channels.FileChannel;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConfigurationManager {
     // Logger
     public static final Logger log = CraftIRCBridge.log;
     private static final String logPrefix = CraftIRCBridge.logPrefix;
-    private static final String msgPrefix = CraftIRCBridge.msgPrefix;
 
     private JavaPlugin plugin;
-    private FileConfiguration conf;
 
     private static File pluginDir = new File("plugins", "IRCbot");
 
@@ -35,7 +28,7 @@ public class ConfigurationManager {
 
     /**
      * コンストラクタ
-     * 
+     *
      * @param plugin
      */
     public ConfigurationManager(final JavaPlugin plugin) {
@@ -45,7 +38,7 @@ public class ConfigurationManager {
 
     /**
      * 設定をファイルから読み込む
-     * 
+     *
      * @param initialLoad
      *            初回ロードかどうか
      */
@@ -69,7 +62,7 @@ public class ConfigurationManager {
 
     /**
      * 設定ファイルに設定を書き込む (コメントが消えるため使わない)
-     * 
+     *
      * @throws Exception
      */
     public void save() throws Exception {
@@ -85,7 +78,7 @@ public class ConfigurationManager {
 
     /**
      * 存在しないディレクトリを作成する
-     * 
+     *
      * @param dir
      *            File 作成するディレクトリ
      */
@@ -98,42 +91,8 @@ public class ConfigurationManager {
     }
 
     /**
-     * 設定ファイルのバージョンをチェックする
-     * 
-     * @param ver
-     */
-    private void checkver(final double ver) {
-        double configVersion = ver; // 設定ファイルのバージョン
-        double nowVersion = 0.1D; // プラグインのバージョン
-        try {
-            nowVersion = Double.parseDouble(CraftIRCBridge.getInstance().getDescription().getVersion());
-        } catch (NumberFormatException ex) {
-            log.warning(logPrefix + "Cannot parse version string!");
-        }
-
-        // 比較 設定ファイルのバージョンが古ければ config.yml を上書きする
-        if (configVersion < nowVersion) {
-            // 先に古い設定ファイルをリネームする
-            String destName = "oldconfig-v" + configVersion + ".yml";
-            String srcPath = new File(plugin.getDataFolder(), "config.yml").getPath();
-            String destPath = new File(plugin.getDataFolder(), destName).getPath();
-            try {
-                copyTransfer(srcPath, destPath);
-                log.info(logPrefix + "Copied old config.yml to " + destName + "!");
-            } catch (Exception ex) {
-                log.warning(logPrefix + "Cannot copy old config.yml!");
-            }
-
-            // config.ymlと言語ファイルを強制コピー
-            extractResource("/config.yml", plugin.getDataFolder(), true, false);
-
-            log.info(logPrefix + "Deleted existing configuration file and generate a new one!");
-        }
-    }
-
-    /**
      * リソースファイルをファイルに出力する
-     * 
+     *
      * @param from
      *            出力元のファイルパス
      * @param to
@@ -163,7 +122,6 @@ public class ConfigurationManager {
         InputStream in = null;
         InputStreamReader reader = null;
         OutputStreamWriter writer = null;
-        DataInputStream dis = null;
         try {
             // jar内部のリソースファイルを取得
             URL res = CraftIRCBridge.class.getResource(from);
@@ -213,28 +171,6 @@ public class ConfigurationManager {
                 if (writer != null) writer.close();
             } catch (Exception ex) {
             }
-        }
-    }
-
-    /**
-     * コピー元のパス[srcPath]から、コピー先のパス[destPath]へファイルのコピーを行います。
-     * コピー処理にはFileChannel#transferToメソッドを利用します。 コピー処理終了後、入力・出力のチャネルをクローズします。
-     * 
-     * @param srcPath
-     *            コピー元のパス
-     * @param destPath
-     *            コピー先のパス
-     * @throws IOException
-     *             何らかの入出力処理例外が発生した場合
-     */
-    public static void copyTransfer(String srcPath, String destPath) throws IOException {
-        FileChannel srcChannel = new FileInputStream(srcPath).getChannel();
-        FileChannel destChannel = new FileOutputStream(destPath).getChannel();
-        try {
-            srcChannel.transferTo(0, srcChannel.size(), destChannel);
-        } finally {
-            srcChannel.close();
-            destChannel.close();
         }
     }
 

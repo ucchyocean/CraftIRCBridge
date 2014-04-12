@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 import syam.CraftIRCBridge.CraftIRCBridge;
 
-import com.dthielke.herochat.Channel;
 import com.ensifera.animosity.craftirc.EndPoint;
 import com.ensifera.animosity.craftirc.RelayedMessage;
+import com.github.ucchyocean.lc.channel.Channel;
 
 public class BridgeEndPoint implements EndPoint {
     public final static Logger log = CraftIRCBridge.log;
@@ -22,17 +22,14 @@ public class BridgeEndPoint implements EndPoint {
         this.GameChannel = GameChannel;
     }
 
-    @Override
     public boolean adminMessageIn(RelayedMessage arg0) {
         return false;
     }
 
-    @Override
     public Type getType() {
         return Type.MINECRAFT;
     }
 
-    @Override
     public List<String> listDisplayUsers() {
         List<String> ret = new ArrayList<String>();
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -41,7 +38,6 @@ public class BridgeEndPoint implements EndPoint {
         return ret;
     }
 
-    @Override
     public List<String> listUsers() {
         List<String> ret = new ArrayList<String>();
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -50,23 +46,11 @@ public class BridgeEndPoint implements EndPoint {
         return ret;
     }
 
-    @Override
     public void messageIn(RelayedMessage rm) {
         if (rm == null || GameChannel == null) return;
-        // if (rm.getEvent() == null) { System.out.println("null event");
-        // return; }
-        // if (rm.getEvent().equalsIgnoreCase("chat")) {
-        /*
-         * String sender = rm.getField("sender") == null ? "" :
-         * rm.getField("sender"); String message = rm.getField("message") ==
-         * null ? "" : rm.getField("message"); GameChannel.announce("(IRC) " +
-         * sender + ": " + message);
-         */
-        // }
-        GameChannel.announce(rm.getMessage(this));
+        GameChannel.chatFromOtherSource(rm.getField("user"), "IRC", rm.getMessage(this));
     }
 
-    @Override
     public boolean userMessageIn(String user, RelayedMessage message) {
         return false;
     }

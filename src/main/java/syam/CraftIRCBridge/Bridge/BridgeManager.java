@@ -3,7 +3,7 @@ package syam.CraftIRCBridge.Bridge;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.dthielke.herochat.Channel;
+import com.github.ucchyocean.lc.channel.Channel;
 
 public class BridgeManager {
     public static Set<Bridge> bridges = new HashSet<Bridge>();

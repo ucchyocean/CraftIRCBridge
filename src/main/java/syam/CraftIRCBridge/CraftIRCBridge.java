@@ -20,7 +20,7 @@ public class CraftIRCBridge extends JavaPlugin {
     public final static String msgPrefix = "&6[IRCBridge] &f";
 
     // ** Listener **
-    private final BridgePlayerListener playerListener = new BridgePlayerListener(this);
+    private final BridgePlayerListener playerListener = new BridgePlayerListener();
 
     // ** Private classes **
     private ConfigurationManager config;
@@ -102,7 +102,7 @@ public class CraftIRCBridge extends JavaPlugin {
 
     /**
      * 設定マネージャを返す
-     * 
+     *
      * @return ConfigurationManager
      */
     public ConfigurationManager getConfigs() {
@@ -111,7 +111,7 @@ public class CraftIRCBridge extends JavaPlugin {
 
     /**
      * インスタンスを返す
-     * 
+     *
      * @return プラグインインスタンス
      */
     public static CraftIRCBridge getInstance() {
